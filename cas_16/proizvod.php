@@ -1,19 +1,41 @@
 <?php
-include "baza.php";
+require_once "baza.php";
 
-$id = $_GET['id'] ?? null;
-if (!$id) {
-    die("Proizvod nije pronađen!");
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die("Fali ID proizvoda!");
 }
 
-$result = mysqli_query($conn, "SELECT * FROM proizvodi WHERE id=$id");
-$proizvod = mysqli_fetch_assoc($result);
+$idProizvoda = (int)$_GET['id'];
 
-if (!$proizvod) {
-    die("Proizvod ne postoji!");
+$stmt = $baza->prepare("SELECT * FROM proizvodi WHERE id=?");
+$stmt->bind_param("i", $idProizvoda);
+$stmt->execute();
+$rezultat = $stmt->get_result();
+
+if ($rezultat->num_rows == 0) {
+    die("Ovaj proizvod ne postoji!");
 }
+
+$proizvod = $rezultat->fetch_assoc();
 ?>
 
-<h2><?php echo htmlspecialchars($proizvod['ime']); ?></h2>
-<p><?php echo htmlspecialchars($proizvod['opis']); ?></p>
-<a href="index.php">⬅ Nazad</a>
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+    <meta charset="UTF-8">
+    <title><?= htmlspecialchars($proizvod['ime']) ?></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1><?= $proizvod['ime'] ?></h1>
+        <p><?= $proizvod['opis'] ?></p>
+        <p>Cena: <?= $proizvod['cena'] ?></p>
+        <p><?= $proizvod['kolicina'] == 0 ? "Nema na stanju" : "Ima na stanju" ?></p>
+        <a href="index.php">← Nazad na proizvode</a>
+    </div>
+</body>
+
+</html>

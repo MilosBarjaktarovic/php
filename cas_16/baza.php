@@ -1,12 +1,12 @@
 <?php
-$server = "localhost";
-$user = "root";
-$pass = "";
-$db = "web_shop";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "web_shop";
 
-$conn = mysqli_connect($server, $user, $pass, $db);
+$baza = new mysqli($servername, $username, $password, $dbname);
 
-if(!$conn){
-    die("Greška pri konekciji sa bazom: " . mysqli_connect_error());
+if ($baza->connect_error) {
+    die("Greška pri konekciji: " . $baza->connect_error);
 }
 ?>

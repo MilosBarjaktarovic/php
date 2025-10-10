@@ -1,30 +1,25 @@
 <?php
-include "baza.php";
+require_once "baza.php";
 session_start();
-
 $message = "";
 
 if (isset($_POST['submit'])) {
     $email = trim($_POST['email']);
     $sifra = trim($_POST['sifra']);
 
-    // Proveri da li već postoji korisnik
-    $provera = mysqli_prepare($conn, "SELECT * FROM korisnici WHERE email=?");
-    mysqli_stmt_bind_param($provera, "s", $email);
-    mysqli_stmt_execute($provera);
-    $rezultat = mysqli_stmt_get_result($provera);
+    $stmt = $baza->prepare("SELECT * FROM korisnici WHERE email=?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $rezultat = $stmt->get_result();
 
-    if (mysqli_num_rows($rezultat) > 0) {
-        $message = "❌ Korisnik sa ovim email-om već postoji!";
+    if ($rezultat->num_rows > 0) {
+        $message = "❌ Korisnik već postoji!";
     } else {
-        // Šifrovanje lozinke
         $hash_sifra = password_hash($sifra, PASSWORD_DEFAULT);
-
-        // Ubacivanje novog korisnika
-        $stmt = mysqli_prepare($conn, "INSERT INTO korisnici (email, sifra) VALUES (?, ?)");
-        mysqli_stmt_bind_param($stmt, "ss", $email, $hash_sifra);
-        if (mysqli_stmt_execute($stmt)) {
-            $message = "✅ Registracija uspešna! <a href='login.php'>Prijavi se</a>";
+        $stmt2 = $baza->prepare("INSERT INTO korisnici (email, sifra) VALUES (?, ?)");
+        $stmt2->bind_param("ss", $email, $hash_sifra);
+        if ($stmt2->execute()) {
+            $message = "✅ Registracija uspešna! <a href='index.php'>Prijavi se</a>";
         } else {
             $message = "Greška pri registraciji!";
         }
@@ -42,12 +37,9 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-    <p>Ulogovani ste kao: <?= htmlspecialchars($_SESSION['user']) ?></p>
-    <a href="logout.php">Odjavi se</a>
-
     <div class="container">
+        <h2>Registracija</h2>
         <form method="POST" action="">
-            <h2>Registracija</h2>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="sifra" placeholder="Šifra" required>
             <button type="submit" name="submit">Registruj se</button>
