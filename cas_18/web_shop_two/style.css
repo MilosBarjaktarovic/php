@@ -1,0 +1,66 @@
+/* style.css */
+
+/* Body i font */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* svetlo siva pozadina */
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  background-color: royalblue !important;
+}
+
+.navbar .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+  color: #e0e0e0 !important;
+}
+
+/* Kartice proizvoda */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Dugme */
+.btn-primary {
+  background-color: royalblue;
+  border-color: royalblue;
+}
+
+.btn-primary:hover {
+  background-color: #4169e1; /* tamniji royal blue */
+  border-color: #4169e1;
+}
+
+/* Footer */
+footer {
+  background-color: royalblue;
+  color: #fff;
+  padding: 15px 0;
+  text-align: center;
+  margin-top: 30px;
+  font-weight: bold;
+}
+
+/* Kartica slika */
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Centriranje forme */
+form {
+  margin-top: 15px;
+}

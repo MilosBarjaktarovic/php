@@ -8,5 +8,7 @@ if (!isset($_POST['name']) || empty($_POST['name'])) {
 }
 
 $_SESSION["name"] = $_POST["name"];
+$_SESSION['cart'] = []; // inicijalizacija korpe
+
 header("Location: index.php");
 exit;
