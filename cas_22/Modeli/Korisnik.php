@@ -12,7 +12,7 @@ class Korisnik extends Baza {
         $stmt->bind_param("ss", $email, $hashedPassword);
 
         if ($stmt->execute()) {
-            echo "✅ Korisnik sa email adresom $email je uspešno dodat!<br>";
+           echo "✅ Korisnik sa email-om $email je uspešno registrovan!<br>";
         } else {
             echo "❌ Greška prilikom dodavanja korisnika: " . $stmt->error . "<br>";
         }
