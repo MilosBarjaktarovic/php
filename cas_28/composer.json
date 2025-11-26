@@ -1,0 +1,15 @@
+{
+  "name": "zoran/cas_28",
+  "autoload": {
+    "psr-4": {
+      "PHP28\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Milos Barjaktarovic",
+      "email": "bmilos1983@gmail.com"
+    }
+  ],
+  "require": {}
+}
